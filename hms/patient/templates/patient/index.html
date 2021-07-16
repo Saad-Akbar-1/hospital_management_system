@@ -1,0 +1,10 @@
+{% if latest_patient_list %}
+    <h>Recenlty admitted Patients</h>
+    <ul>
+    {% for patient in latest_patient_list %}
+        <li><a href="{% url 'patient:detail' patient.id %}">{{ patient.patient_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No patient info available.</p>
+{% endif %}
