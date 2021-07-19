@@ -6,7 +6,7 @@ from patient.models import Patient # pylint: disable=import-error
 
 class PatientAdmin(admin.ModelAdmin):
     '''Customizing the view for admin here'''
-    list_display = ('patient_name', 'admission_date', 'patient_email', 'patient_contact','is_admitted_recently')
+    list_display = ('patient_name', 'admission_date', 'email', 'patient_contact','is_admitted_recently')
     fieldsets = [
         (None,               {'fields': ['patient_name']}),
         ('Date information', {'fields': ['admission_date'], 'classes': ['collapse']}),
