@@ -10,3 +10,6 @@ superuser:
 
 test:
 	python manage.py test patient
+
+requirements:
+	pip install -r requirements.txt
