@@ -1,13 +1,9 @@
 '''Configure urls for patient app here'''
-from django.shortcuts import redirect
 from django.urls import path
-from django.urls.base import reverse, reverse_lazy
-from django.views.generic.base import RedirectView
+from django.urls.base import reverse_lazy
+
 from patient import views
-import patient # pylint: disable=import-error
 from patient.views import signup_view
-
-
 
 app_name = 'patient'
 urlpatterns = [

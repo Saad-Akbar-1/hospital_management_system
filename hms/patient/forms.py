@@ -3,9 +3,9 @@ The signup form design for Patient Model.
 '''
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from patient.models import Patient
 from phonenumber_field.modelfields import PhoneNumberField
 
+from patient.models import Patient
 
 
 class SignUpForm(UserCreationForm):

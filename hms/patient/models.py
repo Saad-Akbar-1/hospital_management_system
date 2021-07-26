@@ -3,10 +3,10 @@ This is where schema (and models) are defined.
 """
 import datetime
 
+from django.contrib import admin
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.contrib import admin
 from django.utils.translation import gettext as _
 from phonenumber_field.modelfields import PhoneNumberField
 

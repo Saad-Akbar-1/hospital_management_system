@@ -1,15 +1,16 @@
 """
 Views for patient module
 """
-from django.urls.base import reverse_lazy
-from django.views import generic
-from django.shortcuts import render, redirect
-from django.utils import timezone
-from django.views.generic.edit import UpdateView
-from django.views.generic.edit import DeleteView
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from patient.models import  Patient 
+from django.urls.base import reverse_lazy
+from django.utils import timezone
+from django.views import generic
+from django.views.generic.edit import DeleteView, UpdateView
+
 from patient.forms import SignUpForm
+from patient.models import Patient
+
 
 def signup_view(request):
     """The sign up view for the Patient Mdoel"""
@@ -33,14 +34,10 @@ def signup_view(request):
     form = SignUpForm
     return render(request, 'patient/signup.html', {'form': form})
 
-
-
 class IndexView(generic.ListView):
     """Index View for all patients"""
     template_name = 'patient/index.html'
     context_object_name = 'latest_patient_list'
-
-
     def get_queryset(self):
         """Return the last five patients admitted."""
         return Patient.objects.order_by('-admission_date')
@@ -59,11 +56,9 @@ class PatientUpdateView(UpdateView):
         return reverse('patient:index')
 
 class PatientDeleteView(DeleteView):
+    """The Delete view for patient model."""
     DeleteView.model = Patient
-    template_name = "patient/patient_confirm_delete.html"  
-    
+    template_name = "patient/patient_confirm_delete.html"
     def get_success_url(self) -> str:
         return reverse_lazy('patient:index')
-    
-
     

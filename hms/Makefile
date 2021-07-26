@@ -1,13 +1,8 @@
-say_hello:
-	echo "Hello world"
-
 run:
 	python manage.py runserver
 
-migration:
-	python manage.py makemigrations
-
 migrate:
+	python manage.py makemigrations
 	python manage.py migrate
 
 superuser:
