@@ -46,3 +46,10 @@ class PatientModelTests(TestCase):
         response = client.get(f'/patient/{test_patient.id}/delete')
         self.assertTemplateUsed('patient/patient_confirm_delete.html')
         self.assertEqual(response.status_code, 200)
+    def test_signup_view(self):
+        """Test for signup view for a specific patient"""
+        client = Client()
+        response = client.get(f'/patient/signup',follow=True)
+        self.assertTemplateUsed('patient/signup.html')
+        self.assertEqual(response.status_code, 200)
+
