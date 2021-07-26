@@ -1,14 +1,14 @@
 """
 Views for patient module
 """
-from django.http.response import Http404, HttpResponseRedirect
+from django.urls.base import reverse_lazy
 from django.views import generic
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
-from django.urls import reverse, reverse_lazy
-from patient.models import  Patient # pylint: disable=import-error
+from django.urls import reverse
+from patient.models import  Patient 
 from patient.forms import SignUpForm
 
 def signup_view(request):
@@ -58,13 +58,12 @@ class PatientUpdateView(UpdateView):
     def get_success_url(self) -> str:
         return reverse('patient:index')
 
-DeleteView.success_url = 'http://127.0.0.1:8000/patient/'
-
 class PatientDeleteView(DeleteView):
     DeleteView.model = Patient
     template_name = "patient/patient_confirm_delete.html"  
+    
     def get_success_url(self) -> str:
-        return super().get_success_url()
+        return reverse_lazy('patient:index')
     
 
     
