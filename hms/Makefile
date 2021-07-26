@@ -13,3 +13,7 @@ test:
 
 requirements:
 	pip install -r requirements.txt
+
+sort:
+	isort patient
+	isort hms
