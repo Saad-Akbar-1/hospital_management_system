@@ -1,7 +1,7 @@
 """
 Views for patient module
 """
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.urls.base import reverse_lazy
 from django.utils import timezone
@@ -11,11 +11,11 @@ from django.views.generic.edit import DeleteView, UpdateView
 from patient.forms import SignUpForm
 from patient.models import Patient
 
-
-def signup_view(request):
-    """The sign up view for the Patient Mdoel"""
-    form = SignUpForm(request.POST)
-    if form.is_valid():
+class SignupView(generic.FormView):
+    '''The signup view that uses a Signup form class as its form'''
+    template_name = 'patient/signup.html'
+    form_class = SignUpForm
+    def form_valid(self, form):
         name = form.cleaned_data.get('patient_name')
         contact = form.cleaned_data.get('patient_contact')
         emailid = form.cleaned_data.get('patient_email')
@@ -31,8 +31,6 @@ def signup_view(request):
                     )
         patient.save()
         return redirect(str(patient.id)+'/detail')
-    form = SignUpForm
-    return render(request, 'patient/signup.html', {'form': form})
 
 class IndexView(generic.ListView):
     """Index View for all patients"""

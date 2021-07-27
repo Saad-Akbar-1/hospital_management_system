@@ -17,3 +17,10 @@ requirements:
 sort:
 	isort patient
 	isort hms
+
+quality:
+	pylint hms patient --rcfile=.rcfile
+
+coverage:
+	coverage run --source='.' manage.py test patient
+	coverage report
