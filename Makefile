@@ -10,7 +10,7 @@ superuser:
 
 test:
 	python manage.py test 
-	
+
 requirements:
 	pip install -r requirements.txt
 
@@ -21,6 +21,6 @@ quality:
 	pylint hms patient --rcfile=.rcfile
 
 coverage:
-	coverage run --source='.' manage.py test patient doctor
+	coverage run --source='.' manage.py test
 	coverage report
 	
