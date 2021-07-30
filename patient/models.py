@@ -6,15 +6,19 @@ import datetime
 from django.contrib import admin
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.deletion import CASCADE
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from phonenumber_field.modelfields import PhoneNumberField
+
+from doctor.models import Doctor
 
 
 class Patient(AbstractUser):
     '''Basic Patient model, stores common info of patients'''
     username = None
-    email = models.EmailField(_('email address'), unique=True,default="someone@example.com")
+    email = models.EmailField(
+        _('email address'), unique=True, default="someone@example.com")
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     password = models.CharField(max_length=200, default='patient1')
@@ -26,7 +30,21 @@ class Patient(AbstractUser):
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES,default='M')
+    doctor = Doctor.objects.get(id=3)
+    concerned_doctor = models.ForeignKey(
+        Doctor, on_delete=CASCADE, default=doctor.pk, help_text="Assign the Doctor")
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, default='M')
+    ADMITTED, IN_PROGRESS, UNDER_OPERATION, DISCHARGED = 'A', 'I', 'U', 'D'
+    status_choices = [(ADMITTED, 'Admitted'), (IN_PROGRESS, 'In Progress'),
+                      (UNDER_OPERATION, 'Under Operation'), (DISCHARGED, 'Discharged')]
+
+    status = models.CharField(
+        max_length=1,
+        choices=status_choices,
+        default=ADMITTED
+    )
+
     def __str__(self):
         '''Returns the name of current patient'''
         return str(self.patient_name)

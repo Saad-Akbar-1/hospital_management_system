@@ -14,9 +14,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Patient',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('patient_name', models.CharField(max_length=200)),
-                ('admission_date', models.DateTimeField(verbose_name='date published')),
+                ('admission_date', models.DateTimeField(
+                    verbose_name='date published')),
                 ('patient_email', models.EmailField(max_length=200)),
                 ('patient_contact', models.CharField(max_length=15)),
             ],

@@ -1,0 +1,14 @@
+{% if doctor_list %}
+    <h>List of Doctors</h>
+    <ul>
+    {% for doctor in doctor_list %}
+        <li>
+            <a href ="{% url 'doctor:detail' doctor.id %}"> {{ doctor.fullname }}</a>
+            <a href ="{% url 'doctor:update' doctor.id%}"> Edit</a>
+            <a href ="{% url 'doctor:delete' doctor.id%}"> Delete</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Doctor info available.</p>
+{% endif %}

@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='patient',
             name='gender',
-            field=models.CharField(choices=[('M', 'Male'), ('F', 'Female')], default='M', max_length=1),
+            field=models.CharField(
+                choices=[('M', 'Male'), ('F', 'Female')], default='M', max_length=1),
         ),
     ]

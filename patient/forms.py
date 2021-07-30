@@ -12,18 +12,27 @@ from patient.models import Patient
 class SignUpForm(UserCreationForm):
     '''The custom signup form class for Patient Model'''
     alphabets = RegexValidator(r'^[a-zA-Z]*$', 'Only alphabets are allowed.')
-    patient_name = forms.CharField(max_length=30,validators=[alphabets])
-    patient_email = forms.EmailField(max_length=200,validators=[EmailValidator])
+    patient_name = forms.CharField(max_length=30, validators=[alphabets])
+    patient_email = forms.EmailField(
+        max_length=200, validators=[EmailValidator])
     patient_contact = PhoneNumberField(max_length=15)
     birth_date = forms.DateField(help_text='Required. Format: YYYY-MM-DD')
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    gender = forms.ChoiceField(choices=GENDER_CHOICES,widget=forms.RadioSelect)
+    gender = forms.ChoiceField(
+        choices=GENDER_CHOICES, widget=forms.RadioSelect)
+    ADMITTED, IN_PROGRESS, UNDER_OPERATION, DISCHARGED = 'A', 'I', 'U', 'D'
+    status_choices = [(ADMITTED, 'Admitted'), (IN_PROGRESS, 'In Progress'),
+                      (UNDER_OPERATION, 'Under Operation'), (DISCHARGED, 'Discharged')]
+    status = forms.ChoiceField(
+        choices=status_choices, widget=forms.RadioSelect)
+
     class Meta:
         '''Overriding the base class meta'''
         model = Patient
         fields = ('patient_name', 'patient_email',
-                 'patient_contact','birth_date','gender'
-                 )
+                  'patient_contact', 'birth_date', 'gender',
+                  'concerned_doctor', 'status'
+                  )

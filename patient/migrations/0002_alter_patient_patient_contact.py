@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='patient',
             name='patient_contact',
-            field=phonenumber_field.modelfields.PhoneNumberField(max_length=15, region=None),
+            field=phonenumber_field.modelfields.PhoneNumberField(
+                max_length=15, region=None),
         ),
     ]
