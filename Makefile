@@ -10,6 +10,7 @@ superuser:
 
 test:
 	python manage.py test 
+	
 requirements:
 	pip install -r requirements.txt
 
