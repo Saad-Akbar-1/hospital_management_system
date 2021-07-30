@@ -1,16 +1,8 @@
-from django.http import HttpResponse, request
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.views import View
-from django.views.generic.edit import FormView
-from django.views.generic.list import ListView
 
 from doctor.forms import SignUpForm
 from doctor.models import Doctor
-
-
-def my_view(request):
-    return HttpResponse(status=201)
 
 
 class IndexView(View):
