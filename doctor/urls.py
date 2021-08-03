@@ -7,7 +7,7 @@ from doctor import views
 app_name = 'doctor'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('signup/', views.formview, name='signup'),
+    path('signup/', views.AddDoctorView.as_view(), name='signup'),
     path('signup/<int:pk>/detail', views.DetailView.as_view(), name='signup'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('<int:id>/update', views.UpdateDoctorView.as_view(), name='update'),

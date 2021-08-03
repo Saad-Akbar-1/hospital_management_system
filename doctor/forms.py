@@ -20,5 +20,6 @@ class SignUpForm(forms.ModelForm):
         '''Overriding the base class meta'''
         model = Doctor
         fields = ('username', 'password',
-                  'fullname', 'profilepic'
+                  'fullname', 'profilepic',
+                  'specialisation'
                   )

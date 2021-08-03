@@ -15,7 +15,7 @@ requirements:
 	pip install -r requirements.txt
 
 sort:
-	isort -w=120 . 
+	isort -l=120 . 
 
 quality:
 	pylint hms patient --rcfile=.rcfile

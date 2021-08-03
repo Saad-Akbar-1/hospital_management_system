@@ -30,9 +30,8 @@ class Patient(AbstractUser):
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    doctor = Doctor.objects.get(id=3)
     concerned_doctor = models.ForeignKey(
-        Doctor, on_delete=CASCADE, default=doctor.pk, help_text="Assign the Doctor")
+        Doctor, on_delete=CASCADE, help_text="Assign the Doctor", blank=True, null=True)
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, default='M')
     ADMITTED, IN_PROGRESS, UNDER_OPERATION, DISCHARGED = 'A', 'I', 'U', 'D'

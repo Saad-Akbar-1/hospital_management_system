@@ -5,6 +5,7 @@ from django.test import Client, TestCase
 from django.urls.base import reverse
 from django.utils import timezone
 
+from patient.forms import SignUpForm
 from patient.models import Doctor, Patient
 
 
@@ -62,5 +63,6 @@ class PatientModelTests(TestCase):
         """Test for signup view for a specific patient"""
         client = Client()
         response = client.get('/patient/signup', follow=True)
+        self.assertIsInstance(response.context['form'],SignUpForm)
         self.assertTemplateUsed('patient/signup.html')
         self.assertEqual(response.status_code, 200)

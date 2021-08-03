@@ -34,5 +34,5 @@ class SignUpForm(UserCreationForm):
         model = Patient
         fields = ('patient_name', 'patient_email',
                   'patient_contact', 'birth_date', 'gender',
-                  'concerned_doctor', 'status'
+                  'status'
                   )

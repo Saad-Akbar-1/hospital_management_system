@@ -20,57 +20,58 @@ class IndexView(View):
         return render(request, 'doctor/index.html', context)
 
 
-def formview(request):
-    context = {}
-    if request.method == "POST":
-        form = SignUpForm(request.POST, request.FILES)
-        if form.is_valid():
-            name = form.cleaned_data.get("username")
-            passw = form.cleaned_data.get("password")
-            full_name = form.cleaned_data.get("fullname")
-            img = form.cleaned_data.get("profilepic")
-            doctor = Doctor.objects.create(
-                username=name,
-                password=passw,
-                fullname=full_name,
-                profilepic=img
-            )
-            doctor.save()
-            return redirect(str(doctor.id)+'/detail')
-    else:
-        form = SignUpForm()
-    context['form'] = form
-    return render(request, "doctor/signup.html", context)
-
-
 class DetailView(View):
     template_name = 'doctor/detail.html'
 
     def get(self, request, pk):
         doctor = Doctor.objects.get(id=pk)
-        context = {'doctor': doctor}
+        patients = doctor.patient_set.all()
+        context = {'doctor': doctor, 'patients': patients}
         return render(request, 'doctor/detail.html', context)
 
 
 class UpdateDoctorView(View):
-    def get(self, request, id):
+    def get(self, request, id=-1):
         """Return add new order form."""
+        if id == -1:
+            form = SignUpForm()
+            return render(request, 'doctor/signup.html',
+                          {'form': form, 'Text': 'Add a new Doctor'})
         doctor = get_object_or_404(Doctor, id=id)
-        form = SignUpForm()
-        return render(request, 'doctor/signup.html',
-                      {'form': form})
+        if doctor:
+            form = SignUpForm(instance=doctor)
+            return render(request, 'doctor/signup.html',
+                          {'form': form, 'Text': 'Update Doctor'})
 
     def post(self, request, id):
         """Save order and redirect to order list."""
-        form = SignUpForm(request.POST, request.FILES)
         doctor = get_object_or_404(Doctor, id=id)
+        form = SignUpForm(request.POST, request.FILES, instance=doctor)
         if form.is_valid():
             new_doctor = form.save(commit=False)
             new_doctor.doctor = doctor
             new_doctor.save()
             return redirect('doctor:index')
         else:
-            return render(request, 'doctor/signup.html', {'form': form})
+            return render(request, 'doctor/signup.html', {'form': form, 'Text': 'Update Doctor'})
+
+
+class AddDoctorView(View):
+    def get(self, request):
+        """Return add new order form."""
+        form = SignUpForm()
+        return render(request, 'doctor/signup.html',
+                      {'form': form, 'Text': 'Add a new Doctor'})
+    
+    def post(self, request):
+        """Save order and redirect to order list."""
+        form = SignUpForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_doctor = form.save()
+            new_doctor.save()
+            return redirect('doctor:index')
+        else:
+            return render(request, 'doctor/signup.html', {'form': form, 'Text': 'Add a new Doctor'})
 
 
 class DeleteDoctor(View):
