@@ -5,6 +5,7 @@ __pycache__/
 
 #vscode directory
 /.vscode
+workspace.code-workspace
 
 #DS Store
 .DS_Store

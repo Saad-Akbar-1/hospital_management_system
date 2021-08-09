@@ -11,6 +11,7 @@ class DoctorAdmin(admin.ModelAdmin):
         ('Email', {'fields': ['specialisation']}),
     ]
     list_filter = ['fullname']
-    search_fields = ['fullname','specialisation']
+    search_fields = ['fullname', 'specialisation']
 
-admin.site.register(Doctor,DoctorAdmin)
+
+admin.site.register(Doctor, DoctorAdmin)

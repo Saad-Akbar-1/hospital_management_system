@@ -9,7 +9,7 @@ class Doctor(models.Model):
     password = models.CharField(max_length=20)
     fullname = models.CharField(max_length=100)
     profilepic = models.ImageField(upload_to="media/", blank=True)
-    specialisation = models.CharField(max_length=100,blank=True)
+    specialisation = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.fullname
