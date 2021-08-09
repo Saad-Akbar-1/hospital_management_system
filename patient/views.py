@@ -23,11 +23,11 @@ class SignupView(generic.FormView):
         genderchoice = form.cleaned_data.get('gender')
         date = timezone.now()
         patient = Patient.objects.create(
-                          admission_date=date,
-                          patient_contact=contact,
-                          birth_date=dob,
-                          gender=genderchoice
-                          )
+            admission_date=date,
+            patient_contact=contact,
+            birth_date=dob,
+            gender=genderchoice
+        )
         return redirect(str(patient.id)+'/detail')
 
 

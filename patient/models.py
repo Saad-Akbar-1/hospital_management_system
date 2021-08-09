@@ -4,7 +4,6 @@ This is where schema (and models) are defined.
 import datetime
 
 from django.contrib import admin
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils import timezone

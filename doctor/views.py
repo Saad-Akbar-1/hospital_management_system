@@ -62,7 +62,7 @@ class AddDoctorView(View):
         form = SignUpForm()
         return render(request, 'doctor/signup.html',
                       {'form': form, 'Text': 'Add a new Doctor'})
-    
+
     def post(self, request):
         """Save order and redirect to order list."""
         form = SignUpForm(request.POST, request.FILES)

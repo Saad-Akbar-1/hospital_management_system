@@ -52,6 +52,6 @@ class PatientModelTests(TestCase):
         """Test for signup view for a specific Doctor"""
         client = Client()
         response = client.get('/doctor/signup', follow=True)
-        self.assertIsInstance(response.context['form'],SignUpForm)
+        self.assertIsInstance(response.context['form'], SignUpForm)
         self.assertTemplateUsed('doctor/signup.html')
         self.assertEqual(response.status_code, 200)

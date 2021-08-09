@@ -3,7 +3,7 @@ Admin tab, customized to tailor to Patient module and CRUD operations
 """
 from django.contrib import admin
 
-from patient.models import Patient  # pylint: disable=import-error
+from patient.models import Patient  
 
 
 class PatientAdmin(admin.ModelAdmin):

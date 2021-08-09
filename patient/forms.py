@@ -29,7 +29,7 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         '''Overriding the base class meta'''
         model = Patient
-        fields = ('patient_name', 
+        fields = ('patient_name',
                   'patient_contact', 'birth_date', 'gender',
                   'status'
                   )
