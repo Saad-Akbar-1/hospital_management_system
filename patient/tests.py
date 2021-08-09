@@ -11,18 +11,18 @@ from patient.models import Doctor, Patient
 
 def create_dummy_data():
     """Create a dummy patient object to be used for CRUD testing"""
-    doctor = Doctor.objects.create(username='testdoctor',
-                                  password='testdoctor1',
-                                  fullname='TestDoctor',
-                                  )
-    return Patient.objects.create(email='test@example.com',
-                                  password='patient1',
-                                  birth_date='1980-05-21',
-                                  patient_name='Test_Patient',
-                                  gender='M',
-                                  admission_date=timezone.now(),
-                                  concerned_doctor = doctor
-                                  )
+    doctor = Doctor.objects.create(
+        username='testdoctor',
+        password='testdoctor1',
+        fullname='TestDoctor',
+    )
+    return Patient.objects.create(
+        birth_date='1980-05-21',
+        patient_name='Test_Patient',
+        gender='M',
+        admission_date=timezone.now(),
+        concerned_doctor=doctor
+    )
 
 
 class PatientModelTests(TestCase):
@@ -63,6 +63,6 @@ class PatientModelTests(TestCase):
         """Test for signup view for a specific patient"""
         client = Client()
         response = client.get('/patient/signup', follow=True)
-        self.assertIsInstance(response.context['form'],SignUpForm)
+        self.assertIsInstance(response.context['form'], SignUpForm)
         self.assertTemplateUsed('patient/signup.html')
         self.assertEqual(response.status_code, 200)

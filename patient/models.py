@@ -7,7 +7,6 @@ from django.contrib import admin
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.utils import timezone
-from django.utils.translation import gettext as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from doctor.models import Doctor
