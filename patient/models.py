@@ -14,14 +14,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from doctor.models import Doctor
 
 
-class Patient(AbstractUser):
+class Patient(models.Model):
     '''Basic Patient model, stores common info of patients'''
-    username = None
-    email = models.EmailField(
-        _('email address'), unique=True, default="someone@example.com")
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-    password = models.CharField(max_length=200, default='patient1')
     birth_date = models.DateField(null=True, blank=True)
     patient_name = models.CharField(max_length=200)
     admission_date = models.DateTimeField('Date of Admission')

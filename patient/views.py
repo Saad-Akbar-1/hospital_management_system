@@ -18,20 +18,16 @@ class SignupView(generic.FormView):
     form_class = SignUpForm
 
     def form_valid(self, form):
-        name = form.cleaned_data.get('patient_name')
         contact = form.cleaned_data.get('patient_contact')
-        emailid = form.cleaned_data.get('patient_email')
         dob = form.cleaned_data.get('birth_date')
         genderchoice = form.cleaned_data.get('gender')
         date = timezone.now()
-        patient = Patient(patient_name=name,
+        patient = Patient.objects.create(
                           admission_date=date,
-                          email=emailid,
                           patient_contact=contact,
                           birth_date=dob,
                           gender=genderchoice
                           )
-        patient.save()
         return redirect(str(patient.id)+'/detail')
 
 
@@ -54,7 +50,7 @@ class DetailView(generic.DetailView):
 class PatientUpdateView(UpdateView):
     """The update view for the Patient model"""
     model = Patient
-    fields = ['patient_name', 'email', 'patient_contact',
+    fields = ['patient_name', 'patient_contact',
               'birth_date', 'gender', 'concerned_doctor', 'status']
     template_name_suffix = '_update_form'
 

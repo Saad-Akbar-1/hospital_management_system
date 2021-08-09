@@ -9,12 +9,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from patient.models import Patient
 
 
-class SignUpForm(UserCreationForm):
+class SignUpForm(forms.ModelForm):
     '''The custom signup form class for Patient Model'''
     alphabets = RegexValidator(r'^[a-zA-Z]*$', 'Only alphabets are allowed.')
-    patient_name = forms.CharField(max_length=30, validators=[alphabets])
-    patient_email = forms.EmailField(
-        max_length=200, validators=[EmailValidator])
     patient_contact = PhoneNumberField(max_length=15)
     birth_date = forms.DateField(help_text='Required. Format: YYYY-MM-DD')
     GENDER_CHOICES = (
@@ -32,7 +29,7 @@ class SignUpForm(UserCreationForm):
     class Meta:
         '''Overriding the base class meta'''
         model = Patient
-        fields = ('patient_name', 'patient_email',
+        fields = ('patient_name', 
                   'patient_contact', 'birth_date', 'gender',
                   'status'
                   )
