@@ -23,4 +23,12 @@
         <legend><h13>D : Discharged </h13></legend>
     </fieldset>
 </body>
+<legend><h1>My Reports</h1></legend>
+    <ul>
+        {% for url in reports %}
+            <li> 
+                <a href = {{url.0}}> {{url.1}}</a>
+            </li>
+        {% endfor %}
+    </ul>
 

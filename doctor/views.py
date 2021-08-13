@@ -1,8 +1,10 @@
+"""All of the doctor views"""
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
 from doctor.forms import SignUpForm
 from doctor.models import Doctor
+from lab.serializers import ReportSerializer
 
 
 class IndexView(View):
@@ -21,16 +23,25 @@ class IndexView(View):
 
 
 class DetailView(View):
+    """Detail view for a single doctor object"""
     template_name = 'doctor/detail.html'
 
     def get(self, request, pk):
+        """the get request that renders the doctor detail view"""
         doctor = Doctor.objects.get(id=pk)
         patients = doctor.patient_set.all()
-        context = {'doctor': doctor, 'patients': patients}
+        reports = doctor.reports_set.all()
+        serializedreports = ReportSerializer(
+            reports, many=True, context={'request': request})
+        urls = [url['url'] for url in serializedreports.data]
+        context = {'doctor': doctor, 'patients': patients,
+                   'reports': zip(urls, reports)}
         return render(request, 'doctor/detail.html', context)
 
 
 class UpdateDoctorView(View):
+    """The base update doctor view"""
+
     def get(self, request, id=-1):
         """Return add new order form."""
         if id == -1:
@@ -57,6 +68,8 @@ class UpdateDoctorView(View):
 
 
 class AddDoctorView(View):
+    """View for adding a doctor"""
+
     def get(self, request):
         """Return add new order form."""
         form = SignUpForm()
@@ -75,7 +88,10 @@ class AddDoctorView(View):
 
 
 class DeleteDoctor(View):
+    """The delete view"""
+
     def get(self, request, id):
+        """request to delete"""
         doctor = get_object_or_404(Doctor, id=id)
         doctor.delete()
         return redirect('doctor:index')

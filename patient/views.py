@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.views import generic
 from django.views.generic.edit import DeleteView, UpdateView
 
+from lab.serializers import ReportSerializer
 from patient.forms import SignUpForm
 from patient.models import Patient
 
@@ -18,11 +19,13 @@ class SignupView(generic.FormView):
     form_class = SignUpForm
 
     def form_valid(self, form):
+        name = form.cleaned_data.get('name')
         contact = form.cleaned_data.get('patient_contact')
         dob = form.cleaned_data.get('birth_date')
         genderchoice = form.cleaned_data.get('gender')
         date = timezone.now()
         patient = Patient.objects.create(
+            patient_name=name,
             admission_date=date,
             patient_contact=contact,
             birth_date=dob,
@@ -45,6 +48,15 @@ class DetailView(generic.DetailView):
     """Detail View for a particular Patient"""
     model = Patient
     template_name = 'patient/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reports = self.object.reports_set.all()
+        serializedreports = ReportSerializer(
+            reports, many=True, context={'request': self.request})
+        urls = [url['url'] for url in serializedreports.data]
+        context['reports'] = zip(urls, reports)
+        return context
 
 
 class PatientUpdateView(UpdateView):

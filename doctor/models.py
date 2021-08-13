@@ -1,3 +1,4 @@
+"""The base doctor model"""
 import os
 
 from django.db import models
@@ -12,7 +13,8 @@ class Doctor(models.Model):
     specialisation = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return self.fullname
+        return str(self.fullname)
 
     def get_absolute_image(self):
+        """returns the absolute path for the profile pic"""
         return os.path.join('/doctor/media', self.profilepic.name)

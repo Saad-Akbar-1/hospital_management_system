@@ -1,3 +1,4 @@
+"""Test cases for doctor"""
 from django.test import Client, TestCase
 from django.urls.base import reverse
 
