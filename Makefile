@@ -18,7 +18,7 @@ sort:
 	isort -l=120 . 
 
 quality:
-	pylint hms patient doctor lab --rcfile=.rcfile
+	pylint * --rcfile=.rcfile
 
 coverage:
 	coverage run --source='.' manage.py test
