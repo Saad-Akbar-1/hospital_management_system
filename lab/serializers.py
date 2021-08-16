@@ -1,3 +1,4 @@
+"""The Serializers to be used in REST API"""
 from rest_framework import serializers
 
 from doctor.models import Doctor

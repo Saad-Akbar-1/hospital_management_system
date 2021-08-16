@@ -1,7 +1,7 @@
 [MASTER]
 
 # Files or directories to be skipped. They should be base names, not paths.
-ignore=CVS,migrations,Makefile,urls,requirements,admin.py,apps.py
+ignore=CVS,migrations,Makefile,urls,requirements.txt,admin.py,apps.py
 
 # Add files or directories matching the regex patterns to the ignore-list. The
 # regex matches against paths.
@@ -28,5 +28,5 @@ min-public-methods=0
 # can either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once).
-disable=E1101
+disable=E1101,R0201,R1705,R1710
 
