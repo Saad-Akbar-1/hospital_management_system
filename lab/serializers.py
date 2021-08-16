@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from doctor.models import Doctor
@@ -24,7 +23,6 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 class ReportSerializer(serializers.ModelSerializer):
     """Serializer for model report"""
-    owner = serializers.ReadOnlyField(source='owner.username')
     url = serializers.HyperlinkedIdentityField(view_name='report-detail')
     Concerned_doctor = DoctorSerializer(
         read_only=True, source='concerned_doctor')
@@ -33,16 +31,16 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         """Defining meta for Reports which is displayed"""
         model = Reports
-        fields = ['url', 'id', 'owner', 'report', 'concerned_doctor',
+        fields = ['url', 'report', 'concerned_doctor',
                   'reporttype', 'Report', 'Concerned_doctor']
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    """Serializer for users so they can see the reports they made"""
-    reports = serializers.HyperlinkedRelatedField(
-        many=True, view_name='report-detail', read_only=True)
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     """Serializer for users so they can see the reports they made"""
+#     reports = serializers.HyperlinkedRelatedField(
+#         many=True, view_name='report-detail', read_only=True)
 
-    class Meta:
-        """Defining meta for user"""
-        model = User
-        fields = ['url', 'id', 'username', 'reports']
+#     class Meta:
+#         """Defining meta for user"""
+#         model = User
+#         fields = ['url', 'id', 'username', 'reports']

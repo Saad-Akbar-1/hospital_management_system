@@ -8,8 +8,7 @@ from patient.models import Patient
 
 class Reports(models.Model):
     """The report of a particular patient prescribed by a doctor"""
-    owner = models.ForeignKey(
-        'auth.User', related_name='reports', on_delete=models.CASCADE)
+  
 
     report = models.ForeignKey(
         Patient, on_delete=CASCADE,
@@ -25,7 +24,7 @@ class Reports(models.Model):
         choices=REPORT_CHOICES, default='B', max_length=2)
     concerned_doctor = models.ForeignKey(Doctor, on_delete=CASCADE,
                                          help_text="The Prescribing Doctor",
-                                         blank=True, null=False)
+                                         blank=True, null=True)
 
     def __str__(self):
         return str(self.report)

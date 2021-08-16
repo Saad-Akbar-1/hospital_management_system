@@ -40,14 +40,12 @@ class DetailView(View):
 
 
 class UpdateDoctorView(View):
-    """The base update doctor view"""
+    """The base update doctor view,
+    This view both adds a new doctor and updates existing ones too.
+    """
 
-    def get(self, request, id=-1):
-        """Return add new order form."""
-        if id == -1:
-            form = SignUpForm()
-            return render(request, 'doctor/signup.html',
-                          {'form': form, 'Text': 'Add a new Doctor'})
+    def get(self, request, id):
+        """Return add new doctor form."""
         doctor = get_object_or_404(Doctor, id=id)
         if doctor:
             form = SignUpForm(instance=doctor)
