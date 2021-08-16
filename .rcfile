@@ -1,11 +1,11 @@
 [MASTER]
 
 # Files or directories to be skipped. They should be base names, not paths.
-ignore=CVS,migrations
+ignore=CVS,migrations,Makefile,urls,requirements,admin.py,apps.py
 
 # Add files or directories matching the regex patterns to the ignore-list. The
 # regex matches against paths.
-ignore-paths=
+ignore-paths=migrations
 
 # Files or directories matching the regex patterns are skipped. The regex
 # matches against base names, not paths.
