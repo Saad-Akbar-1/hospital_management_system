@@ -45,7 +45,7 @@ class ReportList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ReportDetail(generics.RetrieveUpdateDestroyAPIView, APIView):
+class ReportDetail(APIView):
     """
     Retrieve, update or delete a report instance.
     """
