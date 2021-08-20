@@ -35,13 +35,3 @@ class ReportSerializer(serializers.ModelSerializer):
         fields = ['url', 'report', 'concerned_doctor',
                   'reporttype', 'Report', 'Concerned_doctor']
 
-
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     """Serializer for users so they can see the reports they made"""
-#     reports = serializers.HyperlinkedRelatedField(
-#         many=True, view_name='report-detail', read_only=True)
-
-#     class Meta:
-#         """Defining meta for user"""
-#         model = User
-#         fields = ['url', 'id', 'username', 'reports']
