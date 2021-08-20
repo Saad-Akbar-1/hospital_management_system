@@ -19,7 +19,7 @@ class ReportsTests(APITestCase):
 
     def test_detail_report(self):
         """
-        Ensure we can see details of object
+        Ensure we can see details of object after updating
         """
         url = reverse('report-list')
         data = {'reporttype': 'CT'}
@@ -30,7 +30,7 @@ class ReportsTests(APITestCase):
 
     def test_delete_report(self):
         """
-        Ensure we can see details of object
+        Ensure we can delete the object
         """
         url = reverse('report-list')
         data = {'reporttype': 'CT'}
