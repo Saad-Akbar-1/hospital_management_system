@@ -34,4 +34,3 @@ class ReportSerializer(serializers.ModelSerializer):
         model = Reports
         fields = ['url', 'report', 'concerned_doctor',
                   'reporttype', 'Report', 'Concerned_doctor']
-

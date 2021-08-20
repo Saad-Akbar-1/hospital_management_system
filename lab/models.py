@@ -8,7 +8,6 @@ from patient.models import Patient
 
 class Reports(models.Model):
     """The report of a particular patient prescribed by a doctor"""
-  
 
     report = models.ForeignKey(
         Patient, on_delete=CASCADE,
