@@ -1,6 +1,7 @@
 """The main views for REST framweork"""
 from django.http import Http404
-from rest_framework import generics, status
+from django.contrib.auth.decorators import login_required
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -9,7 +10,6 @@ from rest_framework.views import APIView
 from lab.models import Reports
 from lab.serializers import ReportSerializer
 
-
 @api_view(['GET'])
 def api_root(request, format=None):
     """The main index"""
@@ -17,7 +17,6 @@ def api_root(request, format=None):
         'reports': reverse('report-list', request=request, format=format)
 
     })
-
 
 class ReportList(APIView):
     """ListView for reports"""

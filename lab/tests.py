@@ -28,6 +28,12 @@ class ReportsTests(APITestCase):
             concerned_doctor=doctor,
             status="A"
         )
+        url = reverse('report-list')
+        doctor = Doctor.objects.get()
+        patient = Patient.objects.get()
+        data = {'reporttype': 'CT', 'report': patient.id,
+                'concerned_doctor': doctor.id}
+        self.client.post(url, data)
 
     def test_create_report(self):
         """
@@ -36,11 +42,11 @@ class ReportsTests(APITestCase):
         url = reverse('report-list')
         doctor = Doctor.objects.get()
         patient = Patient.objects.get()
-        data = {'reporttype': 'CT', 'report': patient.id,
+        data = {'reporttype': 'B', 'report': patient.id,
                 'concerned_doctor': doctor.id}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Reports.objects.count(), 1)
+        self.assertEqual(Reports.objects.count(), 2)
 
     def test_detail_report_after_updating(self):
         """
@@ -49,9 +55,7 @@ class ReportsTests(APITestCase):
         url = reverse('report-list')
         doctor = Doctor.objects.get()
         patient = Patient.objects.get()
-        data = {'reporttype': 'B', 'report': patient.id,
-                'concerned_doctor': doctor.id}
-        response = self.client.post(url, data)
+        data = {}
         data['reporttype'] = 'CT'
         response = self.client.put(url, data)
         response = self.client.get(
@@ -63,12 +67,6 @@ class ReportsTests(APITestCase):
         """
         Ensure we can delete the object
         """
-        url = reverse('report-list')
-        doctor = Doctor.objects.get()
-        patient = Patient.objects.get()
-        data = {'reporttype': 'B', 'report': patient.id,
-                'concerned_doctor': doctor.id}
-        response = self.client.post(url, data)
         response = self.client.delete(
             reverse('report-detail', kwargs={'pk': Reports.objects.get().id}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
