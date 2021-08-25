@@ -22,9 +22,12 @@ class TokenLoginRequiredMixin(mixins.LoginRequiredMixin):
         http_auth = request.META.get("HTTP_AUTHORIZATION")
         token_key = http_auth.split()[1]
         if http_auth and "Token" in http_auth:
-            token_obj = Token.objects.get(key=token_key)
-            if(token_obj):
-                request.user = User.objects.get(auth_token=token_key)
+            try:
+                token_obj = Token.objects.get(key=token_key)
+                if(token_obj):
+                    request.user = User.objects.get(auth_token=token_key)
+            except:
+                return self.handle_no_permission()
 
         elif not request.user.is_authenticated:
             return self.handle_no_permission()
