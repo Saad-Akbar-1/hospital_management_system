@@ -1,19 +1,16 @@
-from django.urls import include, path
+from django.urls import path
+from rest_framework.authtoken import views as restviews
 
 from lab import views
 
-from rest_framework import routers
-
-router = routers.SimpleRouter()
-
-
 urlpatterns = [
-    path('lab/', views.api_root,name='index'),
-    path('lab/report', views.ReportList.as_view(),name='report-list'),
-    path('lab/report/<int:pk>/', views.ReportDetail.as_view(),name='report-detail'),
-    path('lab/report/<int:pk>/<format>', views.ReportDetail.as_view(),name='report-detail'),
+    path('lab/report/', views.ReportList.as_view(), name='report-list'),
+    path('lab/report/<int:pk>/', views.ReportDetail.as_view(), name='report-detail'),
+    path('lab/report/<int:pk>/<format>',
+         views.ReportDetail.as_view(), name='report-detail'),
 ]
+
 urlpatterns += [
-    path('api-auth/', include('rest_framework.urls')),
+    path('lab/api-auth-token/', restviews.obtain_auth_token)
 ]
-urlpatterns += router.urls
+

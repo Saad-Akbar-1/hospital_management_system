@@ -1,7 +1,10 @@
 """Test cases for REST API lab"""
+from django.contrib.auth.models import User
+from django.test import Client
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from doctor.models import Doctor
@@ -13,6 +16,14 @@ class ReportsTests(APITestCase):
     """CRUD Test on Reports"""
 
     def setUp(self):
+        self.user = User.objects.create_user(
+            username='test',
+            email='test@email.com',
+            password='test',
+        )
+        token, created = Token.objects.get_or_create(user=self.user)
+        self.client = Client(HTTP_AUTHORIZATION='Token ' + token.key)
+
         doctor = Doctor.objects.create(
             username='testdoctor',
             password='testdoctor1',
@@ -53,8 +64,6 @@ class ReportsTests(APITestCase):
         Ensure we can see details of object after updating
         """
         url = reverse('report-list')
-        doctor = Doctor.objects.get()
-        patient = Patient.objects.get()
         data = {}
         data['reporttype'] = 'CT'
         response = self.client.put(url, data)

@@ -1,68 +1,81 @@
-"""
-Test cases for various scenarios
-"""
-from django.test import Client, TestCase
-from django.urls.base import reverse
+"""Test cases for REST API lab"""
+from django.contrib.auth.models import User
+from django.test import Client
+from django.urls import reverse
 from django.utils import timezone
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APITestCase
 
-from patient.forms import SignUpForm
-from patient.models import Doctor, Patient
-
-
-def create_dummy_data():
-    """Create a dummy patient object to be used for CRUD testing"""
-    doctor = Doctor.objects.create(
-        username='testdoctor',
-        password='testdoctor1',
-        fullname='TestDoctor',
-    )
-    return Patient.objects.create(
-        birth_date='1980-05-21',
-        patient_name='Test_Patient',
-        gender='M',
-        admission_date=timezone.now(),
-        concerned_doctor=doctor
-    )
+from doctor.models import Doctor
+from patient.models import Patient
 
 
-class PatientModelTests(TestCase):
-    """Test CRUD Operations for Patient"""
+class PatientTests(APITestCase):
+    """CRUD Test on Patient"""
 
-    def test_index_view(self):
-        """Test for default Index view of all patients"""
-        response = self.client.get(reverse('patient:index'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed('patient/index.html')
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='test',
+            email='test@email.com',
+            password='test',
+        )
+        token, created = Token.objects.get_or_create(user=self.user)
+        self.client = Client(HTTP_AUTHORIZATION='Token ' + token.key)
 
-    def test_detail_view(self):
-        """Test for a detail view for a specific patient"""
-        client = Client()
-        test_patient = create_dummy_data()
-        response = client.get(f'/patient/{test_patient.id}/')
-        self.assertTemplateUsed('patient/detail.html')
-        self.assertEqual(response.status_code, 200)
+        doctor = Doctor.objects.create(
+            username='testdoctor',
+            password='testdoctor1',
+            fullname='TestDoctor',
+            specialisation="Cardiology",
+            profilepic='black.png'
+        )
+        Patient.objects.create(
+            birth_date='1980-05-21',
+            patient_name='testpatient1',
+            gender='M',
+            admission_date=timezone.now(),
+            concerned_doctor=doctor,
+            status="A"
+        )
+        url = reverse('report-list')
+        doctor = Doctor.objects.get()
+        patient = Patient.objects.get()
+        data = {'reporttype': 'CT', 'report': patient.id,
+                'concerned_doctor': doctor.id}
+        self.client.post(url, data)
 
-    def test_update_view(self):
-        """Test for update view for a specific patient"""
-        client = Client()
-        test_patient = create_dummy_data()
-        response = client.get(
-            f'/patient/{test_patient.id}/patient_update_form')
-        self.assertTemplateUsed('patient/patient_update_form.html')
-        self.assertEqual(response.status_code, 200)
+    def test_create_patient(self):
+        """
+        Ensure we can create a new patient object.
+        """
+        url = reverse('patient:patient-list')
+        data = {
+            "birth_date": "1980-05-21",
+            "patient_name": "testpatient2",
+            "status": "A",
+            "gender": "M",
+            "patient_contact" : "+12342134523"
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Patient.objects.count(), 2)
 
-    def test_delete_view(self):
-        """Test for delete view for a specific patient"""
-        client = Client()
-        test_patient = create_dummy_data()
-        response = client.get(f'/patient/{test_patient.id}/delete')
-        self.assertTemplateUsed('patient/patient_confirm_delete.html')
-        self.assertEqual(response.status_code, 200)
+    def test_patient_detail_after_updating(self):
+        """
+        Ensure we can see details of object after updating
+        """
+        url = reverse('doctor-list')
+        response = self.client.get(reverse(
+            'patient:patient-detail', kwargs={'pk': Patient.objects.get(patient_name='testpatient1').id}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Patient.objects.count(), 1)
 
-    def test_signup_view(self):
-        """Test for signup view for a specific patient"""
-        client = Client()
-        response = client.get('/patient/signup', follow=True)
-        self.assertIsInstance(response.context['form'], SignUpForm)
-        self.assertTemplateUsed('patient/signup.html')
-        self.assertEqual(response.status_code, 200)
+    def test_delete_patient(self):
+        """
+        Ensure we can delete the object
+        """
+        response = self.client.delete(
+            reverse('patient:patient-detail', kwargs={'pk': Patient.objects.get().id}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Patient.objects.count(), 0)

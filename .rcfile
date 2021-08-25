@@ -28,5 +28,5 @@ min-public-methods=0
 # can either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once).
-disable=E1101,R0201,R1705,R1710
+disable=E1101,R0201,R1705,R1710,C0103
 

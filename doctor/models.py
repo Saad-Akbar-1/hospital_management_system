@@ -9,8 +9,8 @@ class Doctor(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=20)
     fullname = models.CharField(max_length=100)
-    profilepic = models.ImageField(upload_to="media/", blank=True)
-    specialisation = models.CharField(max_length=100, blank=True)
+    profilepic = models.ImageField(upload_to="media/", blank=True,null=True)
+    specialisation = models.CharField(max_length=100, blank=True,default="General")
 
     def __str__(self):
         return str(self.fullname)
