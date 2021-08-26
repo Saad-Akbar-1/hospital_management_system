@@ -7,9 +7,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from lab.CustomTokenAuth import TokenLoginRequiredMixin
 from lab.models import Reports
 from lab.serializers import ReportSerializer
-from lab.CustomTokenAuth import TokenLoginRequiredMixin
+
 
 class ReportList(TokenLoginRequiredMixin, APIView):
     """ListView for Reports"""
