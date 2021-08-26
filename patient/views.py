@@ -7,7 +7,7 @@ from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from lab.views import TokenLoginRequiredMixin
+from lab.CustomTokenAuth import TokenLoginRequiredMixin
 from patient.models import Patient
 from patient.serializers import PatientSerializer
 

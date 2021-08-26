@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from doctor.models import Doctor
 from doctor.serializers import DoctorSerializer
-from lab.views import TokenLoginRequiredMixin
+from lab.CustomTokenAuth import TokenLoginRequiredMixin
 
 
 class DoctorList(TokenLoginRequiredMixin, generics.ListCreateAPIView):

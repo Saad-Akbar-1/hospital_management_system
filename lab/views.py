@@ -1,40 +1,15 @@
 """The main views for REST framweork"""
-from django.contrib.auth import mixins
-from django.contrib.auth.models import User
+
 from django.http import Http404
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from lab.models import Reports
 from lab.serializers import ReportSerializer
-
-
-class TokenLoginRequiredMixin(mixins.LoginRequiredMixin):
-
-    """A login required mixin that allows token authentication."""
-
-    def dispatch(self, request, *args, **kwargs):
-        """If token was provided, ignore authenticated status."""
-        http_auth = request.META.get("HTTP_AUTHORIZATION")
-        token_key = http_auth.split()[1]
-        if http_auth and "Token" in http_auth:
-            try:
-                token_obj = Token.objects.get(key=token_key)
-                if(token_obj):
-                    request.user = User.objects.get(auth_token=token_key)
-            except:
-                return self.handle_no_permission()
-
-        elif not request.user.is_authenticated:
-            return self.handle_no_permission()
-
-        return super(mixins.LoginRequiredMixin, self).dispatch(
-            request, *args, **kwargs)
-
+from lab.CustomTokenAuth import TokenLoginRequiredMixin
 
 class ReportList(TokenLoginRequiredMixin, APIView):
     """ListView for Reports"""
