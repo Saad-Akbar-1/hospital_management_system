@@ -34,7 +34,7 @@ else
 	python manage.py create_dummy_reports
 endif
 delete-dummy-data:
+	python manage.py delete_dummy_reports
 	python manage.py delete_dummy_doctors
 	python manage.py delete_dummy_patients
-	python manage.py delete_dummy_reports
 	
