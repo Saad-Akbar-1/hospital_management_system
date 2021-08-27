@@ -1,3 +1,4 @@
+"""The base admin class and views"""
 from django.contrib import admin
 
 from doctor.models import Doctor

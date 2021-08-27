@@ -35,12 +35,25 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES':(
+                'rest_framework.permissions.IsAuthenticated',
+    ),
+    
+}
 
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
     'doctor.apps.DoctorConfig',
+    'lab.apps.LabConfig',
     'patient.apps.PatientConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'phonenumber_field',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
 
 ]
 
@@ -101,7 +115,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
